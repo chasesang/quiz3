@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Biddr</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+
+    <%= link_to 'Home', auctions_path %>
+      |
+
+      <%= link_to 'All Auctions', auctions_path %>
+      |
+      <%= link_to 'New Auction', new_auction_path%>
+      |
+      <% if user_signed_in? %>
+        Hello <%= current_user.first_name %>,
+        <%= link_to 'Sign Out', sessions_path, method: :delete %>
+        |
+        <%= link_to 'Watched Auctions', user_watches_path(current_user) %>
+        |
+
+      <% else %>
+        <%= link_to 'Sign Up', new_user_path %>
+        |
+        <%= link_to 'Sign In', new_session_path %>
+      <% end %>
+      <hr>
+      <% if flash[:notice] %>
+        <div class="flash-notice"><%= flash[:notice] %></div>
+      <% elsif flash[:alert] %>
+        <div class="flash-alert"><%= flash[:alert] %></div>
+      <% end %>
+      <hr>
+      <div class='container'>
+        <%= yield %>
+      </div>
+    </body>
+  </html>

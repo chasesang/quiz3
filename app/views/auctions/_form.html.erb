@@ -1,0 +1,9 @@
+<%= simple_form_for @auction do |f| %>
+<%= f.input :title %>
+<%= f.input :details %>
+<%= f.input :end_date, as: :date, html5: true %>
+<%= f.input :reserve_price %>
+<%= f.input :current_price %>
+<%= f.submit class: 'btn btn-primary'%>
+
+<% end %>

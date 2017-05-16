@@ -1,0 +1,51 @@
+<%= @auction.title %>
+<%= @auction.details %>
+<p>Created On: <%= @auction.created_at %></p>
+<p>Owner: <%= @auction.user.first_name %></p>
+<p>Reserve Price: $ <%= @auction.reserve_price %></li></p>
+<strong><p> Current Price: $ <%= @auction.current_price %></strong></p>
+<p>Current State: <%= @auction.aasm_state %></p>
+<% if @auction.user == current_user %>
+<p><%= link_to 'Edit', edit_auction_path(@auction) %>
+<%= link_to 'Delete', auction_path(@auction), method: :delete, data: { confirm: "Are you sure?" }  %>
+<% end %></p>
+
+
+<% if @auction.user == current_user%>
+<p>Auction Curret State: <%= @auction.aasm_state %>
+<br>
+<% if @auction.may_publish? %>
+<%= link_to 'Publish', auction_publishings_path(@auction), method: :post %>
+<% end %>
+<% end %></p>
+
+
+
+
+
+<% if user_signed_in? %>
+<% if @auction.watched_by?(current_user) %>
+<%= link_to fa_icon("heart"), auction_watch_path(@auction, @auction.watch_for(current_user)), method: :delete %>
+<% else %>
+<%= link_to fa_icon("heart-o"), auction_watches_path(@auction), method: :post%>
+<% end %>
+<% end %>
+
+<hr>
+
+<%= render 'bids/form' %>
+<br>
+<% @bids.each do |b| %>
+<% if b.user_id %>
+<strong>$ <%= b.price  %></strong>
+<br>
+Bid Sumitted by <%= b.user.first_name  %> <%= b.user.last_name  %>
+On <%= b.created_at %>
+<br><br>
+<% if b.user == current_user %>
+<%= link_to 'Edit', edit_auction_bid_path(b.auction, b) %>
+<%= link_to 'Delete', auction_bid_path(b.auction, b), method: :delete, data: { confirm: "Are you sure?" }   %>
+<% end %>
+<hr>
+<% end %>
+<% end %>

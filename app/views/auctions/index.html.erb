@@ -1,0 +1,12 @@
+
+
+
+<h2>Current Auctions</h2>
+<ul>
+<% @auctions.each do |a| %>
+<li><%= link_to a.title, auction_path(a) %><br>
+Reserve Price: $ <%= a.reserve_price %></li>
+<strong>Current Price: $ <%= a.current_price %></strong>
+<p>Current State: <%= a.aasm_state %></p>
+<% end %>
+</ul>
